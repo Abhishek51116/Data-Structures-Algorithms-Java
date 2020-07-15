@@ -62,11 +62,12 @@ public class tictactoe {
         int x, y;
         while (gameOn){
             boardPrint(board);
-            System.out.print(">> ");
+            System.out.println("Player " + (turn+1) + " >> ");
             x = sc.nextInt();
             y = sc.nextInt();
             players[turn].placeMark(board, x, y);
         }
+        boardPrint(board);
         if (players[0].winner){
             System.out.println("Player 1 won!");
         }
@@ -93,6 +94,11 @@ public class tictactoe {
     }
     public static void main(String[] args){
         char[][] game = new char[3][3];
+        for (int i=0;i<3;i++) {
+            for (int j=0;j<3;j++) {
+                game[i][j]='.';
+            }
+        }
         Player[] play = new Player[2];
         play[0] = new Player('O');
         play[1] = new Player('X');
