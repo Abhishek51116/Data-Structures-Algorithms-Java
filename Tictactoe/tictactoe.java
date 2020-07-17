@@ -1,12 +1,25 @@
 import java.util.Scanner;
 
 class Player {
+    char type;
     char mark;
     boolean winner = false;
-    Player(char x){
+    Player(char x, char type){
         this.mark = x;
+        this.type = type;
     }
-    void placeMark(char[][] board, int x, int y) {
+    void placeMark(char[][] board) {
+        int x,y;
+        System.out.println("Player " + (tictactoe.turn+1) + " >> ");
+        if (this.type=='C') {
+            int[] coords = think(board);
+            x = coords[0];
+            y = coords[1];
+        }
+        else {
+            x = tictactoe.sc.nextInt();
+            y = tictactoe.sc.nextInt();
+        }
         if (checkBlank(board, x ,y)) {
             board[x][y] = this.mark;
             checkRow(board, x, y, this.mark);
@@ -45,6 +58,18 @@ class Player {
             tictactoe.gameOn = false;
         }
     }
+
+    int[] think(char[][] board) {
+        int[] coords = {0,0};
+        
+        coords[0] = (int)(Math.random() * 3);
+        coords[1] = (int)(Math.random() * 3);
+        if (!checkBlank(board, coords[0], coords[1])) {
+            return think(board);
+        } else {
+            return coords;
+        }
+    }
 }
 public class tictactoe {
     static boolean gameOn = true;
@@ -59,13 +84,9 @@ public class tictactoe {
         }
     }
     static void PlayGame(char[][] board,Player[] players) {
-        int x, y;
         while (gameOn){
             boardPrint(board);
-            System.out.println("Player " + (turn+1) + " >> ");
-            x = sc.nextInt();
-            y = sc.nextInt();
-            players[turn].placeMark(board, x, y);
+            players[turn].placeMark(board);
         }
         boardPrint(board);
         if (players[0].winner){
@@ -83,7 +104,7 @@ public class tictactoe {
             gameOn=true;
             for (int i=0;i<3;i++){
                 for (int j=0;j<3;j++){
-                    board[i][j]=' ';
+                    board[i][j]='.';
                 }
             }
         PlayGame(board, players);
@@ -99,9 +120,15 @@ public class tictactoe {
                 game[i][j]='.';
             }
         }
+        System.out.println("Press C for single player and H for 2 player...");
+        char pl = sc.nextLine().charAt(0);
         Player[] play = new Player[2];
-        play[0] = new Player('O');
-        play[1] = new Player('X');
+        play[0] = new Player('O','H');
+        if (pl=='H') {
+            play[1] = new Player('X','H');
+        } else {
+            play[1] = new Player('X','C');
+        }
         PlayGame(game,play);
     }
 }
