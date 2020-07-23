@@ -1,4 +1,4 @@
-public class linkedlist {
+public class linearLinkedList {
     class Node { 
         int data; 
         Node next; 
@@ -35,6 +35,30 @@ public class linkedlist {
         System.out.println("Added " + data + " at end of list.");
         showList();
     }
+
+    public void deleteBegin(){
+        if(head == null) {  
+            System.out.println("Underflow");
+            return;  
+        }  
+        Node ptr = head;
+        head = ptr.next;
+        System.out.println("Deleted Node from beginning of list.");
+        showList();
+    }
+
+    public void deleteEnd() {
+        Node ptr = head;
+        Node preptr = ptr;
+        while (ptr.next!=null){
+            preptr = ptr;
+            ptr = ptr.next;
+        }
+        preptr.next = null;
+        System.out.println("Deleted Node from the end of the list.");
+        showList();
+    }
+
     public void insertNodeAfter(int data, int target) {
         Node ptr = head;
         while (ptr.data!=target){
@@ -80,7 +104,7 @@ public class linkedlist {
         System.out.println();  
     }  
     public static void main(String[] args){
-        middleinsert mi = new middleinsert();
+        linearLinkedList mi = new linearLinkedList();
         mi.addNode(10);
         mi.addNode(78);
         mi.addNode(92);
@@ -95,5 +119,7 @@ public class linkedlist {
         mi.insertNodeBefore(420, 30);
         mi.insertBegin(53);
         mi.insertEnd(500);
+        mi.deleteBegin();
+        mi.deleteEnd();
     }
 }
